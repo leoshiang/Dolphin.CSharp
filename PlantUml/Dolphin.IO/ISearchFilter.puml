@@ -1,0 +1,13 @@
+@startuml
+interface ISearchFilter {
+    ExcludeDirectories(directories:string[]) : ISearchFilter
+    ExcludeDirectory(directory:string) : ISearchFilter
+    ExcludeExtension(extension:string) : ISearchFilter
+    ExcludeExtensions(extensions:string[]) : ISearchFilter
+    IncludeDirectories(directories:string[]) : ISearchFilter
+    IncludeDirectory(directory:string) : ISearchFilter
+    IncludeExtension(extension:string) : ISearchFilter
+    IncludeExtensions(extensions:string[]) : ISearchFilter
+    Match(files:IEnumerable<string>) : IEnumerable<string>
+}
+@enduml

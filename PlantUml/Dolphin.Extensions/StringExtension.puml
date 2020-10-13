@@ -1,0 +1,7 @@
+@startuml
+class StringExtension <<static>> {
+    + {static} IsNullOrEmpty(target:string) : bool
+    + {static} TryParse(inValue:string) : T
+    + {static} Repeat(chatToRepeat:char, repeat:int) : string
+}
+@enduml

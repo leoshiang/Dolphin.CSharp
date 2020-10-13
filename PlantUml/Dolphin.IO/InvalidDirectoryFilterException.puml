@@ -1,0 +1,8 @@
+@startuml
+class InvalidDirectoryFilterException {
+    + InvalidDirectoryFilterException()
+    + InvalidDirectoryFilterException(message:string)
+    + InvalidDirectoryFilterException(message:string, innerException:Exception)
+}
+Exception <|-- InvalidDirectoryFilterException
+@enduml

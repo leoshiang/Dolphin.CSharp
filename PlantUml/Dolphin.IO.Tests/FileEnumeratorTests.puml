@@ -1,0 +1,5 @@
+@startuml
+class FileEnumeratorTests {
+    + 在檔案系統中搜尋exe應回傳檔案完整路徑() : void
+}
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class FileExtensionTestCases <<static>> {
+    + {static} 有效的副檔名列表() : IEnumerable
+    + {static} 有效的副檔名陣列() : IEnumerable
+    + {static} 無效的檔案名稱字元列表() : IEnumerable
+}
+FileExtensionTestCases --> "無效的檔案名稱字元陣列" IEnumerable
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class InvalidIndexException {
+    + InvalidIndexException()
+    + InvalidIndexException(message:string)
+    + InvalidIndexException(message:string, inner:Exception)
+}
+Exception <|-- InvalidIndexException
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class StringArrayExtension <<static>> {
+    + {static} AddStrings(array:List<string>, source:string[]) : void
+}
+@enduml

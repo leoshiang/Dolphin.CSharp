@@ -1,0 +1,158 @@
+@startuml
+class StringArrayExtension <<static>> {
+    + {static} AddStrings(array:List<string>, source:string[]) : void
+}
+class StringExtension <<static>> {
+    + {static} IsNullOrEmpty(target:string) : bool
+    + {static} TryParse(inValue:string) : T
+    + {static} Repeat(chatToRepeat:char, repeat:int) : string
+}
+class RegexExtensions <<static>> {
+    + {static} ReplaceGroup(regex:Regex, input:string, groupName:string, replacement:string) : string
+}
+class FileEnumeratorTests {
+    + 在檔案系統中搜尋exe應回傳檔案完整路徑() : void
+}
+class SearchFilterTests {
+    + 分次加入目錄條件_不符合條件的目錄應該不接受() : void
+    + 分次加入目錄條件_符合條件的目錄應該被接受() : void
+    + 分次加入副檔名條件_不符合條件的附檔名應該不接受() : void
+    + 分次加入副檔名條件_符合條件的附檔名應該被接受() : void
+    + 加入空的目錄排除條件_應該拋出例外() : void
+    + 加入空的目錄接受條件_應該拋出例外() : void
+    + 加入空的副檔名排除條件_應該拋出例外() : void
+    + 加入空的副檔名接受條件_應該拋出例外() : void
+    + 目錄先加入排除條件再加入接受條件_符合條件的目錄應該被接受() : void
+    + 目錄先加入接受條件再加入排除條件_符合條件的目錄應該不被接受() : void
+    + 目錄先批次加入排除條件再加入接受條件_符合條件的目錄應該被接受() : void
+    + 目錄先批次加入接受條件再加入排除條件_符合條件的目錄應該不被接受() : void
+    + 批次加入多個目錄接受條件_不符合條件的目錄應該不接受() : void
+    + 批次加入多個目錄接受條件_符合條件的目錄應該被接受() : void
+    + 批次加入多個副檔名接受條件_符合條件的附檔名應該被接受() : void
+    + 批次加入空的目錄排除條件_應該拋出例外() : void
+    + 批次加入空的目錄接受條件_應該拋出例外() : void
+    + 批次加入空的副檔名排除條件_應該拋出例外() : void
+    + 批次加入副檔名條件_只要有一個副檔名條件是空的_應該拋出例外() : void
+    + 副檔名條件先加入排除條件再加入接受條件_符合條件的副檔名應該被接受() : void
+    + 副檔名條件先加入接受條件再加入排除條件_符合條件的副檔名應該不被接受() : void
+    + 副檔名條件先批次加入接受條件再加入排除條件_符合條件的副檔名應該不被接受() : void
+    + 副檔名條件批次加入排除條件再加入接受條件_符合條件的副檔名應該被接受() : void
+    + 副檔名條件批次加入接受條件再加入排除條件_符合條件的副檔名應該不被接受() : void
+    + 當沒有條件時_任何副檔名都應該被接受(extension:string) : void
+}
+class FileExtensionTestCases <<static>> {
+    + {static} 有效的副檔名列表() : IEnumerable
+    + {static} 有效的副檔名陣列() : IEnumerable
+    + {static} 無效的檔案名稱字元列表() : IEnumerable
+}
+FileExtensionTestCases --> "無效的檔案名稱字元陣列" IEnumerable
+class DirectoryTestCases <<static>> {
+}
+class FileEnumerator {
+    + FileEnumerator(fileSystem:IFileSystem)
+    + FindFiles(directory:string, filter:ISearchFilter) : IEnumerable<string>
+}
+IFileEnumerator <|-- FileEnumerator
+interface ISearchFilter {
+    ExcludeDirectories(directories:string[]) : ISearchFilter
+    ExcludeDirectory(directory:string) : ISearchFilter
+    ExcludeExtension(extension:string) : ISearchFilter
+    ExcludeExtensions(extensions:string[]) : ISearchFilter
+    IncludeDirectories(directories:string[]) : ISearchFilter
+    IncludeDirectory(directory:string) : ISearchFilter
+    IncludeExtension(extension:string) : ISearchFilter
+    IncludeExtensions(extensions:string[]) : ISearchFilter
+    Match(files:IEnumerable<string>) : IEnumerable<string>
+}
+interface IFileEnumerator {
+    FindFiles(directory:string, filter:ISearchFilter) : IEnumerable<string>
+}
+class SearchFilter {
+    + ExcludeDirectories(directories:string[]) : ISearchFilter
+    + ExcludeDirectory(directory:string) : ISearchFilter
+    + ExcludeExtension(extension:string) : ISearchFilter
+    + ExcludeExtensions(extensions:string[]) : ISearchFilter
+    + IncludeDirectories(directories:string[]) : ISearchFilter
+    + IncludeDirectory(directory:string) : ISearchFilter
+    + IncludeExtension(extension:string) : ISearchFilter
+    + IncludeExtensions(extensions:string[]) : ISearchFilter
+    + Match(files:IEnumerable<string>) : IEnumerable<string>
+}
+ISearchFilter <|-- SearchFilter
+class InvalidFileExtensionFilterException {
+    + InvalidFileExtensionFilterException()
+    + InvalidFileExtensionFilterException(message:string)
+    + InvalidFileExtensionFilterException(message:string, innerException:Exception)
+}
+Exception <|-- InvalidFileExtensionFilterException
+class InvalidDirectoryFilterException {
+    + InvalidDirectoryFilterException()
+    + InvalidDirectoryFilterException(message:string)
+    + InvalidDirectoryFilterException(message:string, innerException:Exception)
+}
+Exception <|-- InvalidDirectoryFilterException
+class Dropbox {
+    + Dropbox(fileSystem:IFileSystem)
+    + Dropbox()
+    + GetPersonalDirectory() : string
+}
+class DropboxInfo {
+}
+class PersonalInfo {
+    + Host : string <<get>> <<set>>
+    + IsTeam : bool <<get>> <<set>>
+    + Path : string <<get>> <<set>>
+    + SubscriptionType : string <<get>> <<set>>
+}
+IDropbox <|-- Dropbox
+Dropbox +-- DropboxInfo
+DropboxInfo --> "Personal" PersonalInfo
+Dropbox +-- PersonalInfo
+interface IDropbox {
+    GetPersonalDirectory() : string
+}
+class DolphinUnitTest {
+}
+class InvalidIndexException {
+    + InvalidIndexException()
+    + InvalidIndexException(message:string)
+    + InvalidIndexException(message:string, inner:Exception)
+}
+Exception <|-- InvalidIndexException
+interface IComparisonOptions {
+    Include(propertyName:string) : ComparisonOptions
+    Include(propertyNames:IEnumerable<string>) : ComparisonOptions
+    Include(func:Func<string, bool>) : ComparisonOptions
+    Exclude(propertyName:string) : ComparisonOptions
+    Exclude(propertyNames:IEnumerable<string>) : ComparisonOptions
+    Exclude(func:Func<string, bool>) : ComparisonOptions
+}
+class "HashSet`1"<T> {
+}
+IComparisonOptions --> "Options<string>" "HashSet`1"
+class ObjectComparer <<static>> {
+    + {static} Compare(obj:object, another:object, options:Func<IComparisonOptions, IComparisonOptions>) : bool
+    + {static} Compare(obj:object, toCompare:object, options:Func<IComparisonOptions, IComparisonOptions>) : void
+    + {static} DeepCompare(obj:object, another:object) : bool
+}
+class ComparisonOptions {
+    + ComparisonOptions()
+    + ComparisonOptions(propertyNames:IEnumerable<string>)
+    + Include(propertyName:string) : ComparisonOptions
+    + Include(propertyNames:IEnumerable<string>) : ComparisonOptions
+    + Include(func:Func<string, bool>) : ComparisonOptions
+    + Exclude(propertyName:string) : ComparisonOptions
+    + Exclude(propertyNames:IEnumerable<string>) : ComparisonOptions
+    + Exclude(func:Func<string, bool>) : ComparisonOptions
+}
+class "HashSet`1"<T> {
+}
+IComparisonOptions <|-- ComparisonOptions
+ComparisonOptions o-> "Options<string>" "HashSet`1"
+class AutoGeneratedProgram {
+    {static} Main(args:string[]) : void
+}
+class AutoGeneratedProgram {
+    {static} Main(args:string[]) : void
+}
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class InvalidFileExtensionFilterException {
+    + InvalidFileExtensionFilterException()
+    + InvalidFileExtensionFilterException(message:string)
+    + InvalidFileExtensionFilterException(message:string, innerException:Exception)
+}
+Exception <|-- InvalidFileExtensionFilterException
+@enduml

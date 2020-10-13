@@ -1,0 +1,5 @@
+@startuml
+class RegexExtensions <<static>> {
+    + {static} ReplaceGroup(regex:Regex, input:string, groupName:string, replacement:string) : string
+}
+@enduml

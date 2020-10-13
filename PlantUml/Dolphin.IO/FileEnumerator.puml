@@ -1,0 +1,7 @@
+@startuml
+class FileEnumerator {
+    + FileEnumerator(fileSystem:IFileSystem)
+    + FindFiles(directory:string, filter:ISearchFilter) : IEnumerable<string>
+}
+IFileEnumerator <|-- FileEnumerator
+@enduml

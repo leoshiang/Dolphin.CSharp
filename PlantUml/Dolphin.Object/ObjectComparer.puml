@@ -1,0 +1,7 @@
+@startuml
+class ObjectComparer <<static>> {
+    + {static} Compare(obj:object, another:object, options:Func<IComparisonOptions, IComparisonOptions>) : bool
+    + {static} Compare(obj:object, toCompare:object, options:Func<IComparisonOptions, IComparisonOptions>) : void
+    + {static} DeepCompare(obj:object, another:object) : bool
+}
+@enduml

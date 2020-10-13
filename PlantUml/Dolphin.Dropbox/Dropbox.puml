@@ -1,0 +1,19 @@
+@startuml
+class Dropbox {
+    + Dropbox(fileSystem:IFileSystem)
+    + Dropbox()
+    + GetPersonalDirectory() : string
+}
+class DropboxInfo {
+}
+class PersonalInfo {
+    + Host : string <<get>> <<set>>
+    + IsTeam : bool <<get>> <<set>>
+    + Path : string <<get>> <<set>>
+    + SubscriptionType : string <<get>> <<set>>
+}
+IDropbox <|-- Dropbox
+Dropbox +-- DropboxInfo
+DropboxInfo --> "Personal" PersonalInfo
+Dropbox +-- PersonalInfo
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+class ComparisonOptions {
+    + ComparisonOptions()
+    + ComparisonOptions(propertyNames:IEnumerable<string>)
+    + Include(propertyName:string) : ComparisonOptions
+    + Include(propertyNames:IEnumerable<string>) : ComparisonOptions
+    + Include(func:Func<string, bool>) : ComparisonOptions
+    + Exclude(propertyName:string) : ComparisonOptions
+    + Exclude(propertyNames:IEnumerable<string>) : ComparisonOptions
+    + Exclude(func:Func<string, bool>) : ComparisonOptions
+}
+class "HashSet`1"<T> {
+}
+IComparisonOptions <|-- ComparisonOptions
+ComparisonOptions o-> "Options<string>" "HashSet`1"
+@enduml
